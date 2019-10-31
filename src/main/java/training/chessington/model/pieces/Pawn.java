@@ -11,65 +11,81 @@ import java.util.List;
 
 public class Pawn extends AbstractPiece {
 
-    public static final int START_POS_WHITE = 6;
-    public static final int START_POSITION_BLACK = 1;
-    public static final int ONE_STEP_WHITE = -1;
-    public static final int ONE_STEP_BLACK = 1;
-
+    public static final int RIGHT_BOARD_EDGE = 7;
+    public static final int LEFT_BOARD_EDGE = 0;
 
     public Pawn(PlayerColour colour) {
         super(Piece.PieceType.PAWN, colour);
     }
-
-
+    
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
 
         List<Move> allowedMoves = new ArrayList<>();
 
-        if (colour == PlayerColour.WHITE) {
-            if (from.getRow() == 0) {
-                return allowedMoves;
+        if (checkPieceEndBoard(from, colour)) {
+
+            if (checkPieceInFront(from, board, colour)) {
+                allowedMoves.add(new Move(from, from.plus(forward(colour, 1), 0)));
             }
-            if ((from.getRow() == START_POS_WHITE) && board.get(from.plus(-2, 0)) == null) {
-                allowedMoves.add(new Move(from, from.plus(-2, 0)));
+            if (checkPieceTwoInFront(from, board, colour)) {
+                allowedMoves.add(new Move(from, from.plus(forward(colour, 2), 0)));
             }
-            if (board.get(from.plus(ONE_STEP_WHITE, 0)) == null) {
-                allowedMoves.add(new Move(from, from.plus(-1, 0)));
+            if (diagonalTakeRight(from,board,colour)){
+                allowedMoves.add(new Move(from, from.plus(forward(colour,1), 1)));
             }
-            if (from.getCol() != 7 && board.get(from.plus(-1, 1)) != null) {
-                if (board.get(from.plus(-1, 1)).getColour() == PlayerColour.BLACK) {
-                    allowedMoves.add(new Move(from, from.plus(-1, 1)));
-                }
-            }
-            if (from.getCol() != 0 && board.get(from.plus(-1, -1)) != null) {
-                if (board.get(from.plus(-1, -1)).getColour() == PlayerColour.BLACK) {
-                    allowedMoves.add(new Move(from, from.plus(-1, -1)));
-                }
+            if (diagonalTakeLeft(from,board,colour)){
+                allowedMoves.add(new Move(from, from.plus(forward(colour,1), -1)));
             }
 
-        } else {
-            if (from.getRow() == 7) {
-                return allowedMoves;
-            }
-            if ((from.getRow() == START_POSITION_BLACK) && board.get(from.plus(2, 0)) == null) {
-                allowedMoves.add(new Move(from, from.plus(2, 0)));
-            }
-            if (board.get(from.plus(ONE_STEP_BLACK, 0)) == null) {
-                allowedMoves.add(new Move(from, from.plus(1, 0)));
-            }
-            if (from.getCol() != 7 && board.get(from.plus(1, 1)) != null) {
-                if (board.get(from.plus(1, 1)).getColour() == PlayerColour.WHITE) {
-                    allowedMoves.add(new Move(from, from.plus(1, 1)));
-                }
-            }
-            if (from.getCol() != 0 && board.get(from.plus(1, -1)) != null) {
-                if (board.get(from.plus(1, -1)).getColour() == PlayerColour.WHITE) {
-                    allowedMoves.add(new Move(from, from.plus(1, -1)));
-                }
-            }
         }
         return allowedMoves;
+    }
+
+    private Integer forward(PlayerColour colour, int i) {
+        if (colour == PlayerColour.WHITE) {
+            i *= -1;
+        }
+        return i;
+    }
+
+    private Integer startPosition(PlayerColour colour) {
+        int start;
+        if (colour == PlayerColour.WHITE) {
+            start = 6;
+        } else {
+            start = 1;
+        }
+        return start;
+    }
+
+    private Boolean checkPieceEndBoard(Coordinates from, PlayerColour colour) {
+        boolean b = (colour == PlayerColour.WHITE && from.getRow() != 0) || (colour == PlayerColour.BLACK && from.getRow() != 7);
+        return b;
+    }
+
+    private Boolean checkPieceInFront(Coordinates from, Board board, PlayerColour colour) {
+        boolean b = (board.get(from.plus(forward(colour, 1), 0)) == null);
+        return b;
+    }
+
+    private Boolean checkPieceTwoInFront(Coordinates from, Board board, PlayerColour colour) {
+        boolean b = from.getRow() == startPosition(colour) && (board.get(from.plus(forward(colour, 2), 0)) == null);
+        return b;
+    }
+    private Boolean diagonalTakeRight(Coordinates from, Board board, PlayerColour colour) {
+        boolean b = false;
+        if (from.getCol() != RIGHT_BOARD_EDGE && board.get(from.plus(forward(colour, 1), 1)) != null) {
+            b = (board.get(from.plus(forward(colour, 1), 1)).getColour() != colour);
+        }
+        return b;
+    }
+    private Boolean diagonalTakeLeft(Coordinates from, Board board, PlayerColour colour) {
+        boolean b = false;
+        if (from.getCol() != LEFT_BOARD_EDGE && board.get(from.plus(forward(colour, 1), -1)) != null) {
+            b = (board.get(from.plus(forward(colour, 1), -1)).getColour() != colour);
+        }
+        return b;
     }
 
 }
