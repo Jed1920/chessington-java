@@ -66,4 +66,5 @@ public class Game {
     public String getResult() {
         return null;
     }
+
 }
