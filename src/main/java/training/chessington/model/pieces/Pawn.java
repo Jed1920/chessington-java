@@ -1,5 +1,6 @@
 package training.chessington.model.pieces;
 
+import com.sun.javafx.logging.jfr.JFRInputEvent;
 import training.chessington.model.Board;
 import training.chessington.model.Coordinates;
 import training.chessington.model.Move;
@@ -19,16 +20,19 @@ public class Pawn extends AbstractPiece {
 
         List<Move> allowedMoves = new ArrayList<>();
         if (colour == PlayerColour.WHITE) {
-            if (from.getRow() == 6) {
+            if ((from.getRow() == 6) && board.get(from.plus(-2,0))==null){
                 allowedMoves.add(new Move(from, from.plus(-2, 0)));
             }
-            allowedMoves.add(new Move(from, from.plus(-1, 0)));
+            if (board.get(from.plus(-1,0))==null) {
+                allowedMoves.add(new Move(from, from.plus(-1, 0)));
+            }
         } else {
-
-            if (from.getRow() == 1) {
+            if ((from.getRow() == 1) && board.get(from.plus(2,0))==null){
                 allowedMoves.add(new Move(from, from.plus(2, 0)));
             }
-            allowedMoves.add(new Move(from, from.plus(1, 0)));
+            if (board.get(from.plus(1,0))==null){
+                allowedMoves.add(new Move(from, from.plus(1, 0)));
+            }
         }
         return allowedMoves;
     }
