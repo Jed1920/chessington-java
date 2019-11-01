@@ -32,4 +32,20 @@ public class RookTest {
         assertThat(moves).contains(new Move(coords, coords.plus(-5, 0)));
         assertThat(moves).contains(new Move(coords, coords.plus(-6, 0)));
     }
+    @Test
+    public void RookCanMoveDown() {
+        // Arrange
+        Board board = Board.empty();
+        Piece rook = new Rook(PlayerColour.WHITE);
+        Coordinates coords = new Coordinates(4, 4);
+        board.placePiece(coords, rook);
+
+        // Act
+        List<Move> moves = rook.getAllowedMoves(coords, board);
+
+        // Assert
+        assertThat(moves).contains(new Move(coords, coords.plus(1, 0)));
+        assertThat(moves).contains(new Move(coords, coords.plus(2, 0)));
+        assertThat(moves).contains(new Move(coords, coords.plus(3, 0)));
+    }
 }
