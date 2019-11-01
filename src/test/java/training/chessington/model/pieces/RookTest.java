@@ -111,15 +111,15 @@ public class RookTest {
     public void rookCannotMoveOverPieceHorizontally() {
         Board board = Board.empty();
 
-        Piece whiteRook = new Rook(PlayerColour.BLACK);
+        Piece whiteRook = new Rook(PlayerColour.WHITE);
         Coordinates whiteRookCoords = new Coordinates(4, 4);
         board.placePiece(whiteRookCoords,whiteRook);
 
-        Piece whitePawn1 = new Pawn(PlayerColour.BLACK);
+        Piece whitePawn1 = new Pawn(PlayerColour.WHITE);
         Coordinates whitePawnCoords1 = new Coordinates(4, 6);
         board.placePiece(whitePawnCoords1, whitePawn1);
 
-        Piece whitePawn2 = new Pawn(PlayerColour.BLACK);
+        Piece whitePawn2 = new Pawn(PlayerColour.WHITE);
         Coordinates whitePawnCoords2 = new Coordinates(4, 1);
         board.placePiece(whitePawnCoords2, whitePawn2);
 
@@ -129,6 +129,44 @@ public class RookTest {
         // Assert
         assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(0, 3)));
         assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(0, -4)));
+    }
+
+    @Test
+    public void whiteRookCanCaptureBlackPiece(){
+        Board board = Board.empty();
+
+        Piece whiteRook = new Rook(PlayerColour.WHITE);
+        Coordinates whiteRookCoords = new Coordinates(4, 4);
+        board.placePiece(whiteRookCoords,whiteRook);
+
+        Piece blackPawn = new Pawn(PlayerColour.BLACK);
+        Coordinates blackPawnCoords = new Coordinates(4, 6);
+        board.placePiece(blackPawnCoords, blackPawn);
+
+        // Act
+        List<Move> whiteRookMoves = whiteRook.getAllowedMoves(whiteRookCoords, board);
+
+        // Assert
+        assertThat(whiteRookMoves).contains(new Move(whiteRookCoords, whiteRookCoords.plus(4, 6)));
+    }
+
+    @Test
+    public void blackRookCanCaptureWhitePiece(){
+        Board board = Board.empty();
+
+        Piece blackRook = new Rook(PlayerColour.BLACK);
+        Coordinates blackRookCoords = new Coordinates(4, 4);
+        board.placePiece(blackRookCoords,blackRook);
+
+        Piece whitePawn = new Pawn(PlayerColour.WHITE);
+        Coordinates whitePawnCoords = new Coordinates(4, 6);
+        board.placePiece(whitePawnCoords, whitePawn);
+
+        // Act
+        List<Move> whiteRookMoves = blackRook.getAllowedMoves(blackRookCoords, board);
+
+        // Assert
+        assertThat(whiteRookMoves).contains(new Move(blackRookCoords, blackRookCoords.plus(4, 6)));
     }
 
 }
