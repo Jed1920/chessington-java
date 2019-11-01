@@ -55,20 +55,23 @@ public class RookTest {
         Board board = Board.empty();
 
         Piece whiteRook = new Rook(PlayerColour.WHITE);
-        Coordinates whiteRookCoords = new Coordinates(7, 4);
+        Coordinates whiteRookCoords = new Coordinates(4, 4);
         board.placePiece(whiteRookCoords,whiteRook);
 
-        Piece whitePawn = new Pawn(PlayerColour.WHITE);
-        Coordinates whitePawnCoords = new Coordinates(4, 4);
-        board.placePiece(whitePawnCoords, whitePawn);
+        Piece whitePawn1 = new Pawn(PlayerColour.WHITE);
+        Coordinates whitePawnCoords1 = new Coordinates(6, 4);
+        board.placePiece(whitePawnCoords1, whitePawn1);
+
+        Piece whitePawn2 = new Pawn(PlayerColour.WHITE);
+        Coordinates whitePawnCoords2 = new Coordinates(1, 4);
+        board.placePiece(whitePawnCoords2, whitePawn2);
 
         // Act
         List<Move> whiteRookMoves = whiteRook.getAllowedMoves(whiteRookCoords, board);
 
         // Assert
-        assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(-5, 0)));
-        assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(-6, 0)));
-        assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(-7, 0)));
+        assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(3, 0)));
+        assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(-4, 0)));
     }
 
 }
