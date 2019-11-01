@@ -20,16 +20,31 @@ public class Rook extends AbstractPiece {
             if (board.get(from.plus(i, 0)) == null) {
                 allowedMoves.add(new Move(from, from.plus(i, 0)));
             } else {
-                return allowedMoves;
+                i = -from.getRow();
             }
         }
         for (int i = 1; i <= 7- from.getRow(); i++) {
             if (board.get(from.plus(i, 0)) == null) {
                 allowedMoves.add(new Move(from, from.plus(i, 0)));
             } else {
-                return allowedMoves;
+                i = 7- from.getRow();
             }
         }
+        for (int i = -1; i >= -from.getCol(); i--) {
+            if (board.get(from.plus(0, i)) == null) {
+                allowedMoves.add(new Move(from, from.plus(0, i)));
+            } else {
+                i = -from.getCol();
+            }
+        }
+        for (int i = 1; i <= 7- from.getCol(); i++) {
+            if (board.get(from.plus(0, i)) == null) {
+                allowedMoves.add(new Move(from, from.plus(0, i)));
+            } else {
+                i = 7- from.getCol();
+            }
+        }
+
         return allowedMoves;
     }
 }
