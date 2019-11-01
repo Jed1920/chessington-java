@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 public class RookTest {
 
     @Test
-    public void whiteRookCanMoveUp() {
+    public void RookCanMoveUp() {
         // Arrange
         Board board = Board.empty();
         Piece rook = new Rook(PlayerColour.WHITE);
