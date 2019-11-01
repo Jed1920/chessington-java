@@ -17,7 +17,7 @@ public class Pawn extends AbstractPiece {
     public Pawn(PlayerColour colour) {
         super(Piece.PieceType.PAWN, colour);
     }
-    
+
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
 
@@ -31,11 +31,11 @@ public class Pawn extends AbstractPiece {
             if (checkPieceTwoInFront(from, board, colour)) {
                 allowedMoves.add(new Move(from, from.plus(forward(colour, 2), 0)));
             }
-            if (diagonalTakeRight(from,board,colour)){
-                allowedMoves.add(new Move(from, from.plus(forward(colour,1), 1)));
+            if (diagonalTakeRight(from, board, colour)) {
+                allowedMoves.add(new Move(from, from.plus(forward(colour, 1), 1)));
             }
-            if (diagonalTakeLeft(from,board,colour)){
-                allowedMoves.add(new Move(from, from.plus(forward(colour,1), -1)));
+            if (diagonalTakeLeft(from, board, colour)) {
+                allowedMoves.add(new Move(from, from.plus(forward(colour, 1), -1)));
             }
 
         }
@@ -43,36 +43,36 @@ public class Pawn extends AbstractPiece {
     }
 
     private Integer forward(PlayerColour colour, int i) {
-        if (colour == PlayerColour.WHITE) {
-            i *= -1;
-        }
+        if (colour == PlayerColour.WHITE) { i *= -1; }
         return i;
     }
 
     private Integer startPosition(PlayerColour colour) {
         int start;
-        if (colour == PlayerColour.WHITE) {
-            start = 6;
-        } else {
-            start = 1;
-        }
+        if (colour == PlayerColour.WHITE) { start = 6; }
+        else { start = 1; }
         return start;
+    }
+    private Integer endBoardPosition(PlayerColour colour){
+        int end;
+        if (colour == PlayerColour.WHITE) { end = 0; }
+        else { end = 7; }
+        return end;
     }
 
     private Boolean checkPieceEndBoard(Coordinates from, PlayerColour colour) {
-        boolean b = (colour == PlayerColour.WHITE && from.getRow() != 0) || (colour == PlayerColour.BLACK && from.getRow() != 7);
-        return b;
+        return (from.getRow() != endBoardPosition(colour));
     }
 
     private Boolean checkPieceInFront(Coordinates from, Board board, PlayerColour colour) {
-        boolean b = (board.get(from.plus(forward(colour, 1), 0)) == null);
-        return b;
+        return (board.get(from.plus(forward(colour, 1), 0)) == null);
+
     }
 
     private Boolean checkPieceTwoInFront(Coordinates from, Board board, PlayerColour colour) {
-        boolean b = from.getRow() == startPosition(colour) && (board.get(from.plus(forward(colour, 2), 0)) == null);
-        return b;
+        return (from.getRow() == startPosition(colour) && (board.get(from.plus(forward(colour, 2), 0)) == null));
     }
+
     private Boolean diagonalTakeRight(Coordinates from, Board board, PlayerColour colour) {
         boolean b = false;
         if (from.getCol() != RIGHT_BOARD_EDGE && board.get(from.plus(forward(colour, 1), 1)) != null) {
@@ -80,6 +80,7 @@ public class Pawn extends AbstractPiece {
         }
         return b;
     }
+
     private Boolean diagonalTakeLeft(Coordinates from, Board board, PlayerColour colour) {
         boolean b = false;
         if (from.getCol() != LEFT_BOARD_EDGE && board.get(from.plus(forward(colour, 1), -1)) != null) {
