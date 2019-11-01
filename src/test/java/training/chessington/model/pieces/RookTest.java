@@ -51,18 +51,18 @@ public class RookTest {
     }
 
     @Test
-    public void whiteRookCannotMoveOverWhitePiece() {
+    public void rookCannotMoveOverPieceVertically() {
         Board board = Board.empty();
 
-        Piece whiteRook = new Rook(PlayerColour.WHITE);
+        Piece whiteRook = new Rook(PlayerColour.BLACK);
         Coordinates whiteRookCoords = new Coordinates(4, 4);
         board.placePiece(whiteRookCoords,whiteRook);
 
-        Piece whitePawn1 = new Pawn(PlayerColour.WHITE);
+        Piece whitePawn1 = new Pawn(PlayerColour.BLACK);
         Coordinates whitePawnCoords1 = new Coordinates(6, 4);
         board.placePiece(whitePawnCoords1, whitePawn1);
 
-        Piece whitePawn2 = new Pawn(PlayerColour.WHITE);
+        Piece whitePawn2 = new Pawn(PlayerColour.BLACK);
         Coordinates whitePawnCoords2 = new Coordinates(1, 4);
         board.placePiece(whitePawnCoords2, whitePawn2);
 
@@ -72,6 +72,63 @@ public class RookTest {
         // Assert
         assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(3, 0)));
         assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(-4, 0)));
+    }
+    @Test
+    public void rookCanMoveRight() {
+        // Arrange
+        Board board = Board.empty();
+        Piece rook = new Rook(PlayerColour.BLACK);
+        Coordinates coords = new Coordinates(6, 4);
+        board.placePiece(coords, rook);
+
+        // Act
+        List<Move> moves = rook.getAllowedMoves(coords, board);
+
+        // Assert
+        assertThat(moves).contains(new Move(coords, coords.plus(0, 1)));
+        assertThat(moves).contains(new Move(coords, coords.plus(0, 2)));
+        assertThat(moves).contains(new Move(coords, coords.plus(0, 3)));
+    }
+
+    @Test
+    public void rookCanMoveLeft() {
+        // Arrange
+        Board board = Board.empty();
+        Piece rook = new Rook(PlayerColour.BLACK);
+        Coordinates coords = new Coordinates(4, 3);
+        board.placePiece(coords, rook);
+
+        // Act
+        List<Move> moves = rook.getAllowedMoves(coords, board);
+
+        // Assert
+        assertThat(moves).contains(new Move(coords, coords.plus(0, -1)));
+        assertThat(moves).contains(new Move(coords, coords.plus(0, -2)));
+        assertThat(moves).contains(new Move(coords, coords.plus(0, -3)));
+    }
+
+    @Test
+    public void rookCannotMoveOverPieceHorizontally() {
+        Board board = Board.empty();
+
+        Piece whiteRook = new Rook(PlayerColour.BLACK);
+        Coordinates whiteRookCoords = new Coordinates(4, 4);
+        board.placePiece(whiteRookCoords,whiteRook);
+
+        Piece whitePawn1 = new Pawn(PlayerColour.BLACK);
+        Coordinates whitePawnCoords1 = new Coordinates(4, 6);
+        board.placePiece(whitePawnCoords1, whitePawn1);
+
+        Piece whitePawn2 = new Pawn(PlayerColour.BLACK);
+        Coordinates whitePawnCoords2 = new Coordinates(4, 1);
+        board.placePiece(whitePawnCoords2, whitePawn2);
+
+        // Act
+        List<Move> whiteRookMoves = whiteRook.getAllowedMoves(whiteRookCoords, board);
+
+        // Assert
+        assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(0, 3)));
+        assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(0, -1)));
     }
 
 }
