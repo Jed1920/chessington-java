@@ -147,7 +147,7 @@ public class RookTest {
         List<Move> whiteRookMoves = whiteRook.getAllowedMoves(whiteRookCoords, board);
 
         // Assert
-        assertThat(whiteRookMoves).contains(new Move(whiteRookCoords, whiteRookCoords.plus(4, 6)));
+        assertThat(whiteRookMoves).contains(new Move(whiteRookCoords, whiteRookCoords.plus(0, 2)));
     }
 
     @Test
@@ -163,10 +163,10 @@ public class RookTest {
         board.placePiece(whitePawnCoords, whitePawn);
 
         // Act
-        List<Move> whiteRookMoves = blackRook.getAllowedMoves(blackRookCoords, board);
+        List<Move> blackRookMoves = blackRook.getAllowedMoves(blackRookCoords, board);
 
         // Assert
-        assertThat(whiteRookMoves).contains(new Move(blackRookCoords, blackRookCoords.plus(4, 6)));
+        assertThat(blackRookMoves).contains(new Move(blackRookCoords, blackRookCoords.plus(0, 2)));
     }
 
 }

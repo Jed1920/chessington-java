@@ -17,6 +17,11 @@ public class Rook extends AbstractPiece {
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> allowedMoves = new ArrayList<>();
         for (int i = -1; i >= -from.getRow(); i--) {
+            if (board.get(from.plus(i, 0)) != null) {
+                if (board.get(from.plus(i, 0)).getColour() != colour) {
+                    allowedMoves.add(new Move(from, from.plus(i, 0)));
+                }
+            }
             if (board.get(from.plus(i, 0)) == null) {
                 allowedMoves.add(new Move(from, from.plus(i, 0)));
             } else {
@@ -24,6 +29,11 @@ public class Rook extends AbstractPiece {
             }
         }
         for (int i = 1; i <= 7- from.getRow(); i++) {
+            if (board.get(from.plus(i, 0)) != null) {
+                if (board.get(from.plus(i, 0)).getColour() != colour) {
+                    allowedMoves.add(new Move(from, from.plus(i, 0)));
+                }
+            }
             if (board.get(from.plus(i, 0)) == null) {
                 allowedMoves.add(new Move(from, from.plus(i, 0)));
             } else {
@@ -31,6 +41,11 @@ public class Rook extends AbstractPiece {
             }
         }
         for (int i = -1; i >= -from.getCol(); i--) {
+            if (board.get(from.plus(0, i)) != null) {
+                if (board.get(from.plus(0, i)).getColour() != colour) {
+                    allowedMoves.add(new Move(from, from.plus(0, i)));
+                }
+            }
             if (board.get(from.plus(0, i)) == null) {
                 allowedMoves.add(new Move(from, from.plus(0, i)));
             } else {
@@ -38,6 +53,11 @@ public class Rook extends AbstractPiece {
             }
         }
         for (int i = 1; i <= 7- from.getCol(); i++) {
+            if (board.get(from.plus(0, i)) != null) {
+                if (board.get(from.plus(0, i)).getColour() != colour) {
+                    allowedMoves.add(new Move(from, from.plus(0, i)));
+                }
+            }
             if (board.get(from.plus(0, i)) == null) {
                 allowedMoves.add(new Move(from, from.plus(0, i)));
             } else {
