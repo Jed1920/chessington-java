@@ -15,6 +15,82 @@ public class Bishop extends AbstractPiece {
 
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
-        return new ArrayList<>();
+
+        int x;
+        List<Move> allowedMoves = new ArrayList<>();
+        // top left
+        for (x = 1; x <= 8; x++) {
+            if (board.squareIsOnBoard(from.plus(-x, -x))) {
+                if (checkSquareEmpty(board, from, -x, -x)) {
+                    allowedMoves.add(new Move(from, from.plus(-x, -x)));
+                } else {
+                    if (checkPieceOppositeColour(board, from, -x, -x)) {
+                        allowedMoves.add(new Move(from, from.plus(-x, -x)));
+                        break;
+                    }
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        //bottom right
+        for (x = 1; x <= 8; x++) {
+            if (board.squareIsOnBoard(from.plus(x, x))) {
+                if (checkSquareEmpty(board, from, x, x)) {
+                    allowedMoves.add(new Move(from, from.plus(x, x)));
+                } else {
+                    if (checkPieceOppositeColour(board, from, x, x)) {
+                        allowedMoves.add(new Move(from, from.plus(x, x)));
+                        break;
+                    }
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+
+        for (x = 1; x <= 8; x++) {
+            if (board.squareIsOnBoard(from.plus(x, -x))) {
+                if (checkSquareEmpty(board, from, x, -x)) {
+                    allowedMoves.add(new Move(from, from.plus(x, -x)));
+                } else {
+                    if (checkPieceOppositeColour(board, from, x, -x)) {
+                        allowedMoves.add(new Move(from, from.plus(x, -x)));
+                        break;
+                    }
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+
+        for (x = 1; x <= 8; x++) {
+            if (board.squareIsOnBoard(from.plus(-x, x))) {
+                if (checkSquareEmpty(board, from, -x, x)) {
+                    allowedMoves.add(new Move(from, from.plus(-x, x)));
+                } else {
+                    if (checkPieceOppositeColour(board, from, -x, x)) {
+                        allowedMoves.add(new Move(from, from.plus(-x, x)));
+                        break;
+                    }
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+
+        return allowedMoves;
+    }
+
+    private boolean checkSquareEmpty(Board board, Coordinates from, int x, int y) {
+        return (board.get(from.plus(x, y)) == null);
+    }
+
+    private boolean checkPieceOppositeColour(Board board, Coordinates from, int x, int y) {
+        return (board.get(from.plus(x, y)).getColour() != colour);
     }
 }
