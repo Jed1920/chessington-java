@@ -49,4 +49,15 @@ public class Board {
     public void placePiece(Coordinates coords, Piece piece) {
         board[coords.getRow()][coords.getCol()] = piece;
     }
+
+    public boolean squareIsOnBoard(Coordinates coordinates) {
+        if (coordinates.getRow() >= 0 &&
+                coordinates.getRow() <= 7 &&
+                coordinates.getCol() >= 0 &&
+                coordinates.getCol() <= 7) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -148,6 +148,7 @@ public class RookTest {
 
         // Assert
         assertThat(whiteRookMoves).contains(new Move(whiteRookCoords, whiteRookCoords.plus(0, 2)));
+        assertThat(whiteRookMoves).doesNotContain(new Move(whiteRookCoords, whiteRookCoords.plus(0, 3)));
     }
 
     @Test
@@ -167,6 +168,7 @@ public class RookTest {
 
         // Assert
         assertThat(blackRookMoves).contains(new Move(blackRookCoords, blackRookCoords.plus(0, 2)));
+        assertThat(blackRookMoves).doesNotContain(new Move(blackRookCoords, blackRookCoords.plus(0, 3)));
     }
 
 }

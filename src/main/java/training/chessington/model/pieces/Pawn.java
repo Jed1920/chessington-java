@@ -11,9 +11,6 @@ import java.util.List;
 
 public class Pawn extends AbstractPiece {
 
-    public static final int RIGHT_BOARD_EDGE = 7;
-    public static final int LEFT_BOARD_EDGE = 0;
-
     public Pawn(PlayerColour colour) {
         super(Piece.PieceType.PAWN, colour);
     }
@@ -23,70 +20,69 @@ public class Pawn extends AbstractPiece {
 
         List<Move> allowedMoves = new ArrayList<>();
 
-        if (checkPieceEndBoard(from, colour)) {
+        if (checkPieceEndBoard(from)) {
 
-            if (checkPieceInFront(from, board, colour)) {
-                allowedMoves.add(new Move(from, from.plus(forward(colour, 1), 0)));
+            if (checkPieceInFront(from, board)) {
+                allowedMoves.add(new Move(from, from.plus(forward(1), 0)));
             }
-            if (checkPieceTwoInFront(from, board, colour)) {
-                allowedMoves.add(new Move(from, from.plus(forward(colour, 2), 0)));
+            if (checkStartPosandPieceTwoInFront(from, board)) {
+                allowedMoves.add(new Move(from, from.plus(forward(2), 0)));
             }
-            if (diagonalTakeRight(from, board, colour)) {
-                allowedMoves.add(new Move(from, from.plus(forward(colour, 1), 1)));
+            if (diagonalTakeRight(from, board)) {
+                allowedMoves.add(new Move(from, from.plus(forward(1), 1)));
             }
-            if (diagonalTakeLeft(from, board, colour)) {
-                allowedMoves.add(new Move(from, from.plus(forward(colour, 1), -1)));
+            if (diagonalTakeLeft(from, board)) {
+                allowedMoves.add(new Move(from, from.plus(forward(1), -1)));
             }
 
         }
         return allowedMoves;
     }
 
-    private Integer forward(PlayerColour colour, int i) {
+    private Integer forward(int i) {
         if (colour == PlayerColour.WHITE) { i *= -1; }
         return i;
     }
 
-    private Integer startPosition(PlayerColour colour) {
+    private Integer startPosition() {
         int start;
         if (colour == PlayerColour.WHITE) { start = 6; }
         else { start = 1; }
         return start;
     }
-    private Integer endBoardPosition(PlayerColour colour){
+    private Integer endBoardPosition(){
         int end;
         if (colour == PlayerColour.WHITE) { end = 0; }
         else { end = 7; }
         return end;
     }
 
-    private Boolean checkPieceEndBoard(Coordinates from, PlayerColour colour) {
-        return (from.getRow() != endBoardPosition(colour));
+    private Boolean checkPieceEndBoard(Coordinates from) {
+        return (from.getRow() != endBoardPosition());
     }
 
-    private Boolean checkPieceInFront(Coordinates from, Board board, PlayerColour colour) {
-        return (board.get(from.plus(forward(colour, 1), 0)) == null);
-
+    private Boolean checkPieceInFront(Coordinates from, Board board) {
+        return (board.get(from.plus(forward(1), 0)) == null);
     }
 
-    private Boolean checkPieceTwoInFront(Coordinates from, Board board, PlayerColour colour) {
-        return (from.getRow() == startPosition(colour) && (board.get(from.plus(forward(colour, 2), 0)) == null));
+    private Boolean checkStartPosandPieceTwoInFront(Coordinates from, Board board) {
+        return (from.getRow() == startPosition() && (board.get(from.plus(forward(2), 0)) == null));
     }
 
-    private Boolean diagonalTakeRight(Coordinates from, Board board, PlayerColour colour) {
-        boolean b = false;
-        if (from.getCol() != RIGHT_BOARD_EDGE && board.get(from.plus(forward(colour, 1), 1)) != null) {
-            b = (board.get(from.plus(forward(colour, 1), 1)).getColour() != colour);
+    private Boolean diagonalTakeRight(Coordinates from, Board board) {
+        Coordinates square = from.plus(forward(1), 1);
+        if (board.squareIsOnBoard(square) && board.get(square) != null) {
+            return (board.get(square).getColour() != colour);
         }
-        return b;
+        return false;
     }
 
-    private Boolean diagonalTakeLeft(Coordinates from, Board board, PlayerColour colour) {
-        boolean b = false;
-        if (from.getCol() != LEFT_BOARD_EDGE && board.get(from.plus(forward(colour, 1), -1)) != null) {
-            b = (board.get(from.plus(forward(colour, 1), -1)).getColour() != colour);
+    private Boolean diagonalTakeLeft(Coordinates from, Board board) {
+        Coordinates square = from.plus(forward(1), -1);
+        if (board.squareIsOnBoard(square) && board.get(square) != null) {
+            return (board.get(square).getColour() != colour);
         }
-        return b;
+        return false;
     }
 
 }

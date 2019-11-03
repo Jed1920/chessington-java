@@ -15,56 +15,70 @@ public class Rook extends AbstractPiece {
 
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
+
+        int x;
+        int y = 0;
         List<Move> allowedMoves = new ArrayList<>();
-        for (int i = -1; i >= -from.getRow(); i--) {
-            if (board.get(from.plus(i, 0)) != null) {
-                if (board.get(from.plus(i, 0)).getColour() != colour) {
-                    allowedMoves.add(new Move(from, from.plus(i, 0)));
-                }
-            }
-            if (board.get(from.plus(i, 0)) == null) {
-                allowedMoves.add(new Move(from, from.plus(i, 0)));
+
+        for (x = -1; x >= -from.getRow(); x--) {
+            if (checkSquareEmpty(board,from,x,y)) {
+                allowedMoves.add(new Move(from, from.plus(x, y)));
             } else {
-                i = -from.getRow();
+                if (checkPieceOppositeColour(board,from,x,y)) {
+                    allowedMoves.add(new Move(from, from.plus(x, y)));
+                    break;
+                }
+                break;
             }
         }
-        for (int i = 1; i <= 7- from.getRow(); i++) {
-            if (board.get(from.plus(i, 0)) != null) {
-                if (board.get(from.plus(i, 0)).getColour() != colour) {
-                    allowedMoves.add(new Move(from, from.plus(i, 0)));
-                }
-            }
-            if (board.get(from.plus(i, 0)) == null) {
-                allowedMoves.add(new Move(from, from.plus(i, 0)));
+
+        for (x = 1; x <= 7 - from.getRow(); x++) {
+            if (checkSquareEmpty(board,from,x,y)) {
+                allowedMoves.add(new Move(from, from.plus(x, y)));
             } else {
-                i = 7- from.getRow();
+                if (checkPieceOppositeColour(board,from,x,y))  {
+                    allowedMoves.add(new Move(from, from.plus(x, y)));
+                    break;
+                }
+                break;
             }
         }
-        for (int i = -1; i >= -from.getCol(); i--) {
-            if (board.get(from.plus(0, i)) != null) {
-                if (board.get(from.plus(0, i)).getColour() != colour) {
-                    allowedMoves.add(new Move(from, from.plus(0, i)));
-                }
-            }
-            if (board.get(from.plus(0, i)) == null) {
-                allowedMoves.add(new Move(from, from.plus(0, i)));
+
+        x = 0;
+        for (y = -1; y >= -from.getCol(); y--) {
+            if (checkSquareEmpty(board,from,x,y)) {
+                allowedMoves.add(new Move(from, from.plus(x, y)));
             } else {
-                i = -from.getCol();
+                if (checkPieceOppositeColour(board,from,x,y))  {
+                    allowedMoves.add(new Move(from, from.plus(x, y)));
+                    break;
+                }
+                break;
             }
         }
-        for (int i = 1; i <= 7- from.getCol(); i++) {
-            if (board.get(from.plus(0, i)) != null) {
-                if (board.get(from.plus(0, i)).getColour() != colour) {
-                    allowedMoves.add(new Move(from, from.plus(0, i)));
-                }
-            }
-            if (board.get(from.plus(0, i)) == null) {
-                allowedMoves.add(new Move(from, from.plus(0, i)));
+
+        for (y = 1; y <= 7 - from.getCol(); y++) {
+            if (checkSquareEmpty(board,from,x,y)) {
+                allowedMoves.add(new Move(from, from.plus(x, y)));
             } else {
-                i = 7- from.getCol();
+                if (checkPieceOppositeColour(board,from,x,y)) {
+                    allowedMoves.add(new Move(from, from.plus(x, y)));
+                    break;
+                }
+                break;
             }
         }
 
         return allowedMoves;
     }
+
+    private boolean checkSquareEmpty(Board board, Coordinates from, int x, int y){
+        return (board.get(from.plus(x, y)) == null);
+    }
+
+    private boolean checkPieceOppositeColour(Board board, Coordinates from, int x, int y){
+        return (board.get(from.plus(x, y)).getColour() != colour);
+    }
+
 }
+
